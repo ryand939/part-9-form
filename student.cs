@@ -10,7 +10,7 @@ namespace part_9
     {
         private string firstName;
         private string lastName;
-        private string email;
+        private string email; 
         private int studentNumber;
 
 
