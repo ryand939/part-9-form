@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace part_9
+namespace part_9_form
 {
     class Student
     {
