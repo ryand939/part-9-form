@@ -39,22 +39,42 @@ namespace part_9_form
 
         private void button1_Click(object sender, EventArgs e)
         {
+            txtEntryBox.Text = txtEntryBox.Text.Trim();
+            bool spaceFound = false;
             string fName, lName;
+
             // check if user entry is two words seperated by a space
-            foreach (int x in userEntryBox.Text)
+            for(int x = 0; x < txtEntryBox.Text.Length; x++)
             {
-                if(userEntryBox.Text[x].ToString().Trim() == " " )
+                if(txtEntryBox.Text[x].ToString() == " " && spaceFound == false)
                 {
-                    //x will be the index of where the space is, the fname will be before, and the lname after. 
-                    fName = userEntryBox.Text.Substring(0, x).Trim();
-                    lName = userEntryBox.Text.Substring(x, userEntryBox.Text.Length - x).Trim();
+                    // so it doesnt check for more spaces
+                    spaceFound = true;
+
+                    // x will be the index of where the space is, the fname will be before, and the lname after. 
+                    fName = txtEntryBox.Text.Substring(0, x).Trim();
+                    lName = txtEntryBox.Text.Substring(x, txtEntryBox.Text.Length - x).Trim();
+
+
                     // add new student NAME to the list box 
                     studentObjList.Add(new Student(fName, lName));
+
+                    // add to listbox datasource
+                    studentList.Add(fName + " " + lName);
+
+                    // update listbox datasource
+                    studentListbox.DataSource = null;
+                    studentListbox.DataSource = studentList;
+                    
                 }
             }
-            
-        }
+            if (spaceFound == false)
+            {
+                MessageBox.Show("Please enter a first and last name.", "Error");
+            }
+            txtEntryBox.Text = "";
 
+        }
 
 
 
@@ -96,7 +116,45 @@ namespace part_9_form
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            studentListbox.DataSource = studentList;
 
+        }
+
+        private void txtEntryBox_Enter(object sender, EventArgs e)
+        {
+            if (txtEntryBox.Text == "Enter a student.")
+            {
+            txtEntryBox.Text = "";
+            }
+
+        }
+
+        private void txtEntryBox_Leave(object sender, EventArgs e)
+        {
+            if (txtEntryBox.Text.Length == 0)
+            {
+                txtEntryBox.Text = "Enter a student.";
+            }
+
+        }
+
+        private void studentListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("selection changed");
+            Console.WriteLine(studentObjList.Count);
+            // get what index the user is at
+            int index = studentListbox.SelectedIndex;
+            Console.WriteLine("selected index " + index); //+ ". Which means " + studentObjList[index].FirstName.ToString() + " is selected.");
+            // make sure something is selected
+            if(index >= 0)
+            {
+                
+                lblDisplayfName.Text = studentObjList[index].FirstName.ToString();
+                lblDisplaylName.Text = studentObjList[index].LastName.ToString();
+                lblDisplayEmail.Text = studentObjList[index].Email.ToString();
+                lblDisplayStudentNum.Text = studentObjList[index].StudentNumber.ToString();
+                
+            }
         }
 
     }

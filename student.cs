@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace part_9_form
 {
@@ -13,13 +14,13 @@ namespace part_9_form
         private string email; 
         private int studentNumber;
 
+        public static Random rand = new Random();
 
         public Student(string firstName, string lastName)
         {
-            Random random = new Random();
             this.firstName = char.ToUpper(firstName[0]) + firstName.Substring(1); ;
             this.lastName = char.ToUpper(lastName[0]) + lastName.Substring(1);
-            studentNumber = random.Next(0, 1000) + 555000;
+            studentNumber = rand.Next(0, 1000) + 555000;
             GenerateEmail();
         }
 
@@ -67,8 +68,7 @@ namespace part_9_form
         }
         public void reset()
         {
-            Random random = new Random();
-            studentNumber = random.Next(0, 1000) + 555000;
+            studentNumber = rand.Next(0, 1000) + 555000;
             GenerateEmail();
         }
         private void GenerateEmail()
@@ -76,7 +76,7 @@ namespace part_9_form
             string fName3, lName3;
             fName3 = (firstName.Length <= 3) ? firstName : firstName.Substring(0, 3);
             lName3 = (lastName.Length <= 3) ? lastName : lastName.Substring(0, 3);
-            email = firstName + lastName + (studentNumber + "").Substring(3) + "@ICS4U.com";
+            email = fName3 + lName3 + (studentNumber + "").Substring(3) + "@ICS4U.com";
         }
     }
 }
